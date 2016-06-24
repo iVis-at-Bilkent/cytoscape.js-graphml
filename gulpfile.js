@@ -16,6 +16,10 @@ gulp.task('default', [], function( next ){
   next();
 });
 
+gulp.task("build", [], shell.task([
+  'browserify index.js -o cytoscape-graphml.js'
+]));
+
 gulp.task('publish', [], function( next ){
   runSequence('confver', 'lint', 'pkgver', 'push', 'tag', 'npm', next);
 });
