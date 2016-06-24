@@ -23,15 +23,32 @@
         css: false,
         data: true,
         discludeds: []
-      }
+      },
+      layoutBy: "cose" // string of layout name or layout function
     };
 
 
 
     cytoscape('core', 'graphml', function (cyGraphML) {
       var cy = this;
+      var res;
 
-      return cyGraphML ? importer(cy, $, options, cyGraphML) : exporter(cy, $, options);
+      switch (typeof cyGraphML) {
+        case "string": // import
+          res = importer(cy, $, options, cyGraphML);
+          break;
+        case "object": // set options
+          $.extend(options, cyGraphML);
+          res = cy;
+          break;
+        case "undefined": // export
+          res = exporter(cy, $, options);
+          break;
+        default:
+          console.log("Functionality(argument) of .graphml() is not recognized.");
+      }
+
+      return res;
       
     });
 

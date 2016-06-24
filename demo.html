@@ -86,7 +86,10 @@
 						]
 					},
 					ready: function () {
-						console.log(this.graphml());
+						var gml = this.graphml();
+						this.$("").remove();
+						this.graphml({ options: ""});
+						this.graphml(gml);
 					}
 				});
 

@@ -38,7 +38,7 @@ module.exports = function (cy, $, options) {
         result[attr] = {};
         for (var key in eleAttr)
           if($.inArray(key, options[type].discludeds) < 0)
-            result[attr][key] = eleAttr[key];
+            result[attr][key] = { value: eleAttr[key], attrType: attr };
 
       }
     }
@@ -52,7 +52,7 @@ module.exports = function (cy, $, options) {
 
     var eleData = getEleData(ele);
     for (var key in eleData)
-      node += '<data key="' + key + '">' + eleData[key] + '</data>';
+      node += '<data type="' + eleData[key].attrType + '" key="' + key + '">' + eleData[key].value + '</data>';
 
 
     if (ele.isParent()) {

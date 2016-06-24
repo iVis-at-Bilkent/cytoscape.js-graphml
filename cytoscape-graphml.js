@@ -39,7 +39,7 @@ module.exports = function (cy, $, options) {
         result[attr] = {};
         for (var key in eleAttr)
           if($.inArray(key, options[type].discludeds) < 0)
-            result[attr][key] = eleAttr[key];
+            result[attr][key] = { value: eleAttr[key], attrType: attr };
 
       }
     }
@@ -53,7 +53,7 @@ module.exports = function (cy, $, options) {
 
     var eleData = getEleData(ele);
     for (var key in eleData)
-      node += '<data key="' + key + '">' + eleData[key] + '</data>';
+      node += '<data type="' + eleData[key].attrType + '" key="' + key + '">' + eleData[key].value + '</data>';
 
 
     if (ele.isParent()) {
@@ -109,63 +109,78 @@ module.exports = function (cy, $, options) {
 };
 },{}],2:[function(require,module,exports){
 module.exports = function(cy, $, options, cyGraphML) {
-    
-    cy.startBatch();
-    
-    // TODO: set $xml
-    
-    $graphs = $xml.find("graph");
-    
-    var collection = cy.collection();
-    
-    $graphs.each(function(i, $graph){
-        
-        $graph.find("node").each(function(i, $node){
-            var settings = {
-                data : { id: edge.attr("id") },
-                css: { },
-                position: { }
-            };
+    function renderNode($graph){
+        $graph.find("node").each(function () {
+            var $node = $(this);
             
-            $node.find('data').each(function(ii, $data){
+            var settings = {
+                data: {id: $node.attr("id")},
+                css: {},
+                position: {}
+            };
+
+            $node.find('data').each(function () {
+                var $data = $(this);
 
                 settings[$data.attr("type")][$data.attr("key")] = $data.text();
 
             });
-            
-            collection.add({
+
+            cy.add({
                 group: "nodes",
                 data: settings.data,
                 css: settings.css,
                 position: settings.position
             });
+
+            $node.find("graph").each(function () {
+                var $graph = $(this);
+
+                renderNode($graph);
+            })
         });
+    }
 
-        $graph.find("edge").each(function(i, $edge){
-            var settings = {
-                data : { id: $edge.attr("id"), source: $edge.source().id(), target: $edge.target().id() },
-                css: { },
-                position: { }
-            };
-            
-            $edge.find('data').each(function(ii, $data){
+    cy.batch(function () {
+        xml = $.parseXML(cyGraphML);
+        $xml = $(xml);
 
-                settings[$data.attr("type")][$data.attr("key")] = $data.text();
+        $graphs = $xml.find("graph");
 
+        var collection = cy.collection();
+
+        $graphs.each(function () {
+            var $graph = $(this);
+
+            renderNode($graph);
+
+            $graph.find("edge").each(function () {
+                var $edge = $(this);
+
+                var settings = {
+                    data: {id: $edge.attr("id"), source: $edge.attr("source"), target: $edge.attr("target")},
+                    css: {},
+                    position: {}
+                };
+
+                $edge.find('data').each(function () {
+                    var $data = $(this);
+
+                    settings[$data.attr("type")][$data.attr("key")] = $data.text();
+
+                });
+
+                cy.add({
+                    group: "edges",
+                    data: settings.data,
+                    css: settings.css
+                });
             });
-            
-            collection.add({
-                group: "edges",
-                data: settings.data,
-                css: settings.css
-            });
+
         });
-        
+        cy.add(collection);
+        cy.layout({name: "cose"});
     });
-    
-    cy.add(collection);
-    
-    cy.endBatch();
 };
 },{}],3:[function(require,module,exports){
 ;(function () {
@@ -193,15 +208,33 @@ module.exports = function(cy, $, options, cyGraphML) {
         css: false,
         data: true,
         discludeds: []
-      }
+      },
+      layoutBy: "cose" // string of layout name or layout function
     };
 
 
 
     cytoscape('core', 'graphml', function (cyGraphML) {
       var cy = this;
+      console.log(typeof cyGraphML);
+      var res;
 
-      return cyGraphML ? importer(cy, $, options, cyGraphML) : exporter(cy, $, options);
+      switch (typeof cyGraphML) {
+        case "string": // import
+          res = importer(cy, $, options, cyGraphML);
+          break;
+        case "object": // set options
+          $.extend(options, cyGraphML);
+          res = cy;
+          break;
+        case "undefined": // export
+          res = exporter(cy, $, options);
+          break;
+        default:
+          console.log("Functionality(argument) of .graphml() is not recognized.");
+      }
+
+      return res;
       
     });
 
