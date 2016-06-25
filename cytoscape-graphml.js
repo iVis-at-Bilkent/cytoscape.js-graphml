@@ -112,7 +112,7 @@ module.exports = function(cy, $, options, cyGraphML) {
     function renderNode($graph){
         $graph.find("node").each(function () {
             var $node = $(this);
-            
+
             var settings = {
                 data: {id: $node.attr("id")},
                 css: {},
@@ -147,8 +147,6 @@ module.exports = function(cy, $, options, cyGraphML) {
 
         $graphs = $xml.find("graph");
 
-        var collection = cy.collection();
-
         $graphs.each(function () {
             var $graph = $(this);
 
@@ -178,8 +176,11 @@ module.exports = function(cy, $, options, cyGraphML) {
             });
 
         });
-        cy.add(collection);
-        cy.layout({name: "cose"});
+        var layoutOptT = typeof options.layoutBy;
+        if (layoutOptT == "string")
+            cy.layout({name: "cose"});
+        else if (layoutOptT == "function")
+          options.layoutBy();
     });
 };
 },{}],3:[function(require,module,exports){
@@ -216,7 +217,6 @@ module.exports = function(cy, $, options, cyGraphML) {
 
     cytoscape('core', 'graphml', function (cyGraphML) {
       var cy = this;
-      console.log(typeof cyGraphML);
       var res;
 
       switch (typeof cyGraphML) {

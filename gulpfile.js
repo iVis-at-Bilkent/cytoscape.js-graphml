@@ -17,7 +17,7 @@ gulp.task('default', [], function( next ){
 });
 
 gulp.task("build", [], shell.task([
-  'browserify index.js -o cytoscape-graphml.js'
+  'browserify ./src/index.js -o cytoscape-graphml.js'
 ]));
 
 gulp.task('publish', [], function( next ){

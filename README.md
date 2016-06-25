@@ -1,17 +1,28 @@
 cytoscape-graphml
 ================================================================================
-# Pre-release, not fully functional!
 
 ## Description
 
 Import or export the graph in GraphML format.
 
 
+## API
+
+`cy.graphml()`
+Export the graph as GraphML.
+
+`cy.graphml( cyGraphML )`
+Import the graph as GraphML.
+
+`cy.graphml( optionsObj )`
+Updates the specified options of extension.
+
+
 ## Dependencies
 
- * Cytoscape.js ^x.y.z
- * <List your dependencies here please>
-
+ * Cytoscape.js ^2.0
+ * jQuery ^1.4 || ^2.0 || ^3.0
+ 
 
 ## Usage instructions
 
@@ -38,29 +49,6 @@ require(['cytoscape', 'cytoscape-graphml'], function( cytoscape, graphml ){
 ```
 
 Plain HTML/JS has the extension registered for you automatically, because no `require()` is needed.
-
-
-## API
-
-Please briefly describe your API here:
-
-```js
-cy.graphml({
-  foo: 'bar', // some option that does this
-  baz: 'bat' // some options that does that
-  // ... and so on
-});
-```
-
-Or maybe if you have a collection extension:
-
-```js
-cy.elements().test({
-  foo: 'bar', // some option that does this
-  baz: 'bat' // some options that does that
-  // ... and so on
-});
-```
 
 
 ## Publishing instructions

@@ -38,7 +38,7 @@
           res = importer(cy, $, options, cyGraphML);
           break;
         case "object": // set options
-          $.extend(options, cyGraphML);
+          $.extend(true, options, cyGraphML);
           res = cy;
           break;
         case "undefined": // export
