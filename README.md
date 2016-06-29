@@ -58,3 +58,7 @@ This project is set up to automatically be published to npm and bower.  To publi
 1. Set the version number environment variable: `export VERSION=1.2.3`
 1. Publish: `gulp publish`
 1. If publishing to bower for the first time, you'll need to run `bower register cytoscape-graphml https://github.com/iVis-at-Bilkent/cytoscape.js-graphml.git`
+
+## Team
+
+  * [Selim Firat Yilmaz](https://github.com/mrsfy), [Metin Can Siper](https://github.com/metincansiper) of [i-Vis at Bilkent University](http://www.cs.bilkent.edu.tr/~ivis)
