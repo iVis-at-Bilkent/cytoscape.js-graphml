@@ -36,9 +36,10 @@ Download the library:
 CommonJS:
 ```js
 var cytoscape = require('cytoscape');
+var jquery = require('jquery');
 var graphml = require('cytoscape-graphml');
 
-graphml( cytoscape ); // register extension
+graphml( cytoscape, jquery ); // register extension
 ```
 
 AMD:
