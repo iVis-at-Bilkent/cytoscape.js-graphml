@@ -17,11 +17,30 @@ Import the graph as GraphML.
 `cy.graphml( optionsObj )`
 Updates the specified options of extension.
 
+## optionsObj
+
+```js
+{
+      node: {
+        css: false,
+        data: true,
+        position: true,
+        discludeds: []
+      },
+      edge: {
+        css: false,
+        data: true,
+        discludeds: []
+      },
+      layoutBy: "cose" // string of layout name or layout function
+}
+```
+
 
 ## Dependencies
 
- * Cytoscape.js ^2.0
- * jQuery ^1.4 || ^2.0 || ^3.0
+ * Cytoscape.js ^2.7.0
+ * jQuery ^1.7 || ^2.0 || ^3.0
  
 
 ## Usage instructions
