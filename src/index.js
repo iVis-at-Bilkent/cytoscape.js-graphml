@@ -1,4 +1,5 @@
-;(function () {
+;
+(function () {
   'use strict';
 
   // registers the extension on a cytoscape lib ref
@@ -49,7 +50,7 @@
       }
 
       return res;
-      
+
     });
 
   };

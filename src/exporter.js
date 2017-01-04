@@ -28,17 +28,17 @@ module.exports = function (cy, $, options) {
         result[attr] = {};
       else if ($.isArray(opt)) {
         result[attr] = {};
-        for (var j = 0; j < opt.length; j++){
+        for (var j = 0; j < opt.length; j++) {
           var el = opt[i];
           if (ele[attr](el))
             result[attr][el] = ele[attr](el);
         }
-      } else{
+      } else {
         var eleAttr = ele[attr]();
         result[attr] = {};
         for (var key in eleAttr)
-          if($.inArray(key, options[type].discludeds) < 0)
-            result[attr][key] = { value: eleAttr[key], attrType: attr };
+          if ($.inArray(key, options[type].discludeds) < 0)
+            result[attr][key] = {value: eleAttr[key], attrType: attr};
 
       }
     }
@@ -48,7 +48,7 @@ module.exports = function (cy, $, options) {
 
 
   function parseNode(ele, xml) {
-    var node = $('<node />', xml).attr( {id: ele.id() } ).appendTo(xml);
+    var node = $('<node />', xml).attr({id: ele.id()}).appendTo(xml);
 
     var eleData = getEleData(ele);
     for (var key in eleData)
@@ -70,15 +70,15 @@ module.exports = function (cy, $, options) {
   options.edge.discludeds.push("id", "source", "target");
 
   var xmlDoc = $.parseXML(
-    '<?xml version="1.0" encoding="UTF-8"?>\n' +
-    '<graphml xmlns="http://graphml.graphdrawing.org/xmlns"\n' +
-    'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\n' +
-    'xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns\n' +
-    'http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">\n' +
-    '  <graph>\n' +
-    ' </graph>\n' +
-    ' </graphml>\n'
-  );
+          '<?xml version="1.0" encoding="UTF-8"?>\n' +
+          '<graphml xmlns="http://graphml.graphdrawing.org/xmlns"\n' +
+          'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\n' +
+          'xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns\n' +
+          'http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">\n' +
+          '  <graph>\n' +
+          ' </graph>\n' +
+          ' </graphml>\n'
+          );
   var $xml = $(xmlDoc);
 
   var $graph = $xml.find("graph");
