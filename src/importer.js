@@ -27,7 +27,7 @@ module.exports = function (cy, $, options, cyGraphML) {
         var $graph = $(this);
 
         renderNode($graph);
-      })
+      });
     });
   }
 
@@ -68,7 +68,7 @@ module.exports = function (cy, $, options, cyGraphML) {
     });
     var layoutOptT = typeof options.layoutBy;
     if (layoutOptT == "string")
-      cy.layout({name: "cose"});
+       cy.layout({name: options.layoutBy});
     else if (layoutOptT == "function")
       options.layoutBy();
   });

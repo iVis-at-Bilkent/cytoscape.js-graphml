@@ -7,7 +7,7 @@
 
 		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
 
-		<script src="http://cytoscape.github.io/cytoscape.js/api/cytoscape.js-latest/cytoscape.min.js"></script>
+		<script src="http://cytoscape.github.io/cytoscape.js/api/cytoscape.js-latest/cytoscape.js"></script>
 		<script   src="https://code.jquery.com/jquery-3.0.0.min.js"   integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0="   crossorigin="anonymous"></script>
 
 		<!-- for testing with local version of cytoscape.js -->
@@ -39,7 +39,12 @@
 
 		<script>
 			document.addEventListener('DOMContentLoaded', function(){
-
+                                
+                                var graphStr = '<?xml version="1.0" encoding="UTF-8"?><graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">'
+                                    + '<graph>'
+                                    + '<node id="one"><data type="data" key="name">I am OK</data></node><node id="two"><data type="data" key="name">"I am quoted"</data></node><node id="three"><data type="data" key="name">LT: &lt;</data></node><edge id="301af7c9-0c96-4844-91a5-4ed92fa113cf" source="one" target="two"/><edge id="f85531d5-39ff-4405-ae54-691bb04f6aa1" source="two" target="three"/></graph>'
+                                    + '</graphml>';
+                                
 				var cy = window.cy = cytoscape({
 					container: document.getElementById('cy'),
 
@@ -65,32 +70,11 @@
 							}
 						}
 					],
-
-					elements: {
-						nodes: [
-							{ data: { id: 'j', name: 'Jerry' } },
-							{ data: { id: 'e', name: 'Elaine' } },
-							{ data: { id: 'k', name: 'Kramer' } },
-							{ data: { id: 'g', name: 'George' } }
-						],
-						edges: [
-							{ data: { source: 'j', target: 'e' } },
-							{ data: { source: 'j', target: 'k' } },
-							{ data: { source: 'j', target: 'g' } },
-							{ data: { source: 'e', target: 'j' } },
-							{ data: { source: 'e', target: 'k' } },
-							{ data: { source: 'k', target: 'j' } },
-							{ data: { source: 'k', target: 'e' } },
-							{ data: { source: 'k', target: 'g' } },
-							{ data: { source: 'g', target: 'j' } }
-						]
-					},
+                                        
 					ready: function () {
-						var gml = this.graphml();
-						this.$("").remove();
-						this.graphml({ options: ""});
-						console.log(gml);
-						this.graphml(gml);
+                                                this.graphml({layoutBy: 'grid'});
+						this.graphml(graphStr);
+                                                console.log(this.graphml());
 					}
 				});
 
