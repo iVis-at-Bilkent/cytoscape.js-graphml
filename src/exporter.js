@@ -47,23 +47,21 @@ module.exports = function (cy, $, options) {
   }
 
 
-  function parseNode(ele) {
-    var node = '<node id="' + ele.id() + '">';
+  function parseNode(ele, xml) {
+    var node = $('<node />', xml).attr( {id: ele.id() } ).appendTo(xml);
 
     var eleData = getEleData(ele);
     for (var key in eleData)
-      node += '<data type="' + eleData[key].attrType + '" key="' + key + '">' + eleData[key].value + '</data>';
+      $('<data />', node).attr({type: eleData[key].attrType, key: key}).text(eleData[key].value).appendTo(node);
 
 
     if (ele.isParent()) {
-      node += '<graph id="' + ele.id() + ':">';
+      var subgraph = $('<graph />', node).attr({id: ele.id() + ':'}).appendTo(node);
       ele.children().each(function (i, child) {
-        node += parseNode(child);
+        parseNode(child, subgraph);
       });
-      node += '</graph>'
     }
 
-    node += '</node>';
     return node;
   }
 
@@ -86,20 +84,16 @@ module.exports = function (cy, $, options) {
   var $graph = $xml.find("graph");
 
   cy.nodes().orphans().forEach(function (ele) {
-    $graph.append(parseNode(ele));
+    parseNode(ele, $graph);
   });
 
   cy.edges().forEach(function (ele) {
 
-    var edge = '<edge id="' + ele.id() + '" source="' + ele.source().id() + '"' + ' target="' + ele.target().id() + '" >';
+    var edge = $('<edge />', $graph).attr({id: ele.id(), source: ele.source().id(), target: ele.target().id()}).appendTo($graph);
 
     var eleData = getEleData(ele);
     for (var key in eleData)
-      edge += '<data key="' + key + '">' + eleData[key] + '</data>';
-
-    edge += '</edge>';
-
-    $graph.append(edge);
+      $('<data />', edge).attr({key: key}).text(eleData[key].value).appendTo(edge);
 
   });
 
