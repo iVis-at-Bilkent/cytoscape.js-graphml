@@ -1,6 +1,6 @@
 {
   "name": "cytoscape-graphml",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "description": "Import or export the graph in GraphML format.",
   "main": "cytoscape-graphml.js",
   "spm": {
