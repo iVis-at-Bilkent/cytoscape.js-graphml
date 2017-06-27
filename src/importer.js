@@ -66,10 +66,16 @@ module.exports = function (cy, $, options, cyGraphML) {
       });
 
     });
-    var layoutOptT = typeof options.layoutBy;
-    if (layoutOptT == "string")
-       cy.layout({name: options.layoutBy});
-    else if (layoutOptT == "function")
-      options.layoutBy();
+    runLayout();
   });
+  
+  function runLayout() {
+    switch (typeof options.layoutBy) {
+      case 'string':
+        cy.layout({name: options.layoutBy}).run();
+        break;
+      case 'function':
+        options.layoutBy();
+    }
+  }
 };
