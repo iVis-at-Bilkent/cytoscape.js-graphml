@@ -11,9 +11,7 @@ module.exports = function (cy, $, options, cyGraphML) {
 
       $node.find('data').each(function () {
         var $data = $(this);
-
-        settings[$data.attr("type")][$data.attr("key")] = $data.text();
-
+        settings["data"][$data.attr("key")] = $data.text();
       });
 
       cy.add({
@@ -53,9 +51,7 @@ module.exports = function (cy, $, options, cyGraphML) {
 
         $edge.find('data').each(function () {
           var $data = $(this);
-
-          settings[$data.attr("type")][$data.attr("key")] = $data.text();
-
+          settings["data"][$data.attr("key")] = $data.text();
         });
 
         cy.add({
