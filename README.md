@@ -39,7 +39,7 @@ Updates the specified options of extension.
 
 ## Dependencies
 
- * Cytoscape.js ^2.7.0
+ * Cytoscape.js ^3.2.0
  * jQuery ^1.7 || ^2.0 || ^3.0
  
 
