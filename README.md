@@ -3,7 +3,7 @@ cytoscape-graphml
 
 ## Description
 
-A Cytoscape.js extension to import from a graph in GraphML format or to export the current Cytsocape.js graph to GraphML format, distributed under [The MIT License](https://opensource.org/licenses/MIT).
+A Cytoscape.js extension to import from a graph in GraphML format or to export the current Cytsocape.js graph to GraphML format, distributed under [The MIT License](https://opensource.org/licenses/MIT). ([demo](https://ivis-at-bilkent.github.io/cytoscape.js-graphml/demo.html)
 
 
 ## API
