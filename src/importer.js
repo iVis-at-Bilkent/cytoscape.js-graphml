@@ -1,6 +1,6 @@
 module.exports = function (cy, $, options, cyGraphML) {
-  function renderNode($graph) {
-    $graph.find("node").each(function () {
+  function renderNode($graph, $parent) {
+    $graph.children("node").each(function () {
       var $node = $(this);
 
       var settings = {
@@ -9,7 +9,10 @@ module.exports = function (cy, $, options, cyGraphML) {
         position: {}
       };
 
-      $node.find('data').each(function () {
+      if($parent != null)
+        settings["data"]["parent"] = $parent.attr("id");
+
+      $node.children('data').each(function () {
         var $data = $(this);
         settings["data"][$data.attr("key")] = $data.text();
       });
@@ -21,10 +24,10 @@ module.exports = function (cy, $, options, cyGraphML) {
         position: settings.position
       });
 
-      $node.find("graph").each(function () {
+      $node.children("graph").each(function () {
         var $graph = $(this);
 
-        renderNode($graph);
+        renderNode($graph, $node);
       });
     });
   }
@@ -33,12 +36,12 @@ module.exports = function (cy, $, options, cyGraphML) {
     xml = $.parseXML(cyGraphML);
     $xml = $(xml);
 
-    $graphs = $xml.find("graph");
+    $graphs = $xml.find("graph").first();
 
     $graphs.each(function () {
       var $graph = $(this);
 
-      renderNode($graph);
+      renderNode($graph, null);
 
       $graph.find("edge").each(function () {
         var $edge = $(this);
@@ -64,7 +67,7 @@ module.exports = function (cy, $, options, cyGraphML) {
     });
     var layoutOptT = typeof options.layoutBy;
     if (layoutOptT == "string")
-       cy.layout({name: options.layoutBy});
+       cy.layout({name: options.layoutBy}).run();
     else if (layoutOptT == "function")
       options.layoutBy();
   });

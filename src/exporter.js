@@ -37,7 +37,7 @@ module.exports = function (cy, $, options) {
         var eleAttr = ele[attr]();
         result[attr] = {};
         for (var key in eleAttr)
-          if ($.inArray(key, options[type].discludeds) < 0)
+          if ($.inArray(key, options[type].discludeds) < 0 && key != "parent")
             result[attr][key] = {value: eleAttr[key], attrType: attr};
 
       }
@@ -57,7 +57,7 @@ module.exports = function (cy, $, options) {
 
     if (ele.isParent()) {
       var subgraph = $('<graph />', node).attr({id: ele.id() + ':'}).appendTo(node);
-      ele.children().each(function (i, child) {
+      ele.children().each(function (child) {
         parseNode(child, subgraph);
       });
     }
