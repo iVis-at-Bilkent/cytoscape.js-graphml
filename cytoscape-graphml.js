@@ -138,10 +138,10 @@ module.exports = function (cy, $, options, cyGraphML) {
   }
 
   cy.batch(function () {
-    xml = $.parseXML(cyGraphML);
-    $xml = $(xml);
+    var xml = $.parseXML(cyGraphML);
+    var $xml = $(xml);
 
-    $graphs = $xml.find("graph").first();
+    var $graphs = $xml.find("graph").first();
 
     $graphs.each(function () {
       var $graph = $(this);
